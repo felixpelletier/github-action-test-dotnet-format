@@ -1,0 +1,16 @@
+name: Code Format Checker
+on: pull_request
+
+jobs:
+  check-format:
+    runs-on: ubuntu-latest
+    name: Code Format Checker
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: '0'
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.100'
+    - run: git branch
+    - run: git diff --name-only origin/${{github.base_ref}}..origin/${{github.head_ref}} | grep '\.cs$' | xargs dotnet format --verify-no-changes --include
